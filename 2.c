@@ -7,14 +7,14 @@ int main(int argc, char *argv[]) {
   
   if(argc !=2) {
   fprintf(stderr, "Use as argument filename\n");
-  exit(EXIT_FAILURE);
+  exit(1);
   }
   
   file = fopen(argv[1], "w");
   
   if(file == NULL) {
   perror("Fail to open\n");
-  exit(EXIT_FAILURE);
+  exit(1);
   }
   
   printf("Write letters (CTRL-F for finish)\n");
@@ -23,13 +23,13 @@ int main(int argc, char *argv[]) {
   
     if(fputc(ch, file) == EOF) {
     perror("Fail to write in file\n");
-    exit(EXIT_FAILURE);
+    exit(1);
     }
   }
   
   if(fclose(file) == EOF) {
   perror("Fail to close file");
-  exit(EXIT_FAILURE);
+  exit(1);
   }
   
   return 0;
