@@ -47,16 +47,17 @@ void exploreDirectory(const char *dirPath, FileInfo **files, int *fileCount) {
     closedir(dir);
 }
 
-int compareBySize(const void *a, const void *b) {
+int compare(const void *a, const void *b, int c) {
     FileInfo *fileA = (FileInfo *)a;
     FileInfo *fileB = (FileInfo *)b;
-    return (fileA->size > fileB->size) - (fileA->size < fileB->size);
-}
-
-int compareByName(const void *a, const void *b) {
-    FileInfo *fileA = (FileInfo *)a;
-    FileInfo *fileB = (FileInfo *)b;
-    return strcmp(fileA->name, fileB->name);
+    if (c == 1) {
+         return (fileA->size, fileB->size);
+    } else if (c == 2) {
+        return strcmp(fileA->name, fileB->name);
+    } else {
+        fprintf(stderr, "Invalid sort criterion\n");
+        return 1;
+    }
 }
 
 void copyFile(const char *source, const char *destination) {
@@ -122,15 +123,8 @@ int main(int argc, char *argv[]) {
     int fileCount = 0;
 
     exploreDirectory(argv[1], &files, &fileCount);
-
-    if (sortCriterion == 1) {
-        qsort(files, fileCount, sizeof(FileInfo), compareBySize);
-    } else if (sortCriterion == 2) {
-        qsort(files, fileCount, sizeof(FileInfo), compareByName);
-    } else {
-        fprintf(stderr, "Invalid sort criterion\n");
-        return 1;
-    }
+    qsort(files, fileCount, sizeof(FileInfo), compare(sortCriterion))
+    
 
     for (int i = 0; i < fileCount; i++) {
        
