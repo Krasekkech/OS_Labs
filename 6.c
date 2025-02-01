@@ -51,7 +51,7 @@ int compare(const void *a, const void *b, int c) {
     FileInfo *fileA = (FileInfo *)a;
     FileInfo *fileB = (FileInfo *)b;
     if (c == 1) {
-         return (fileA->size, fileB->size);
+         return strcmp(fileA->size, fileB->size);
     } else if (c == 2) {
         return strcmp(fileA->name, fileB->name);
     } else {
